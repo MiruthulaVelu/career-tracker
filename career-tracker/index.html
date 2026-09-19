@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerTrack — Placement Readiness Tracker</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23F6A6C1%22/><path d=%22M25 68 L45 38 L58 55 L75 30%22 stroke=%22%23FFFFFF%22 stroke-width=%228%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path d="M5 16.5L10.2 10.2L13.6 13.6L18.8 8.5" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="18.8" cy="8.5" r="1.8" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span class="brand-name">CareerTrack</span>
+    </div>
+
+    <nav class="nav" aria-label="Main navigation">
+      <button class="nav-item is-active" data-page="dashboard">
+        <svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" data-page="roadmap">
+        <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="5" cy="6" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="18" r="2.2"/><path d="M6.8 7.5 L10.3 10.5 M13.7 13.5 L17.2 16.5" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
+        <span>Roadmap &amp; Tasks</span>
+      </button>
+      <button class="nav-item" data-page="skills">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2.5 L14.6 9 L21.5 9.6 L16.3 14 L18 20.8 L12 17 L6 20.8 L7.7 14 L2.5 9.6 L9.4 9 Z"/></svg>
+        <span>Skill Tracking</span>
+      </button>
+      <button class="nav-item" data-page="analytics">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M4 20 L4 11 M10 20 L10 6 M16 20 L16 14 M22 20 L22 3" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>
+        <span>Analytics</span>
+      </button>
+      <button class="nav-item" data-page="achievements">
+        <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="9" r="6"/><path d="M8.2 14.2 L6.5 21 L12 18 L17.5 21 L15.8 14.2"/></svg>
+        <span>Achievements</span>
+      </button>
+      <button class="nav-item" data-page="history">
+        <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="9"/><path d="M12 7 L12 12 L16 14" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+        <span>History</span>
+      </button>
+      <button class="nav-item" data-page="profile">
+        <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="8" r="4"/><path d="M4 21 C4 16.5 7.5 14 12 14 C16.5 14 20 16.5 20 21"/></svg>
+        <span>Profile &amp; Goals</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn-ghost small" id="exportBtn">Export data</button>
+      <button class="btn-ghost small danger" id="resetBtn">Reset all data</button>
+    </div>
+  </aside>
+
+  <div class="scrim" id="scrim"></div>
+
+  <!-- Main -->
+  <div class="main">
+    <header class="topbar">
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="topbar-title">
+        <h1 id="pageTitle">Dashboard</h1>
+        <p id="pageSubtitle">Your placement preparation at a glance</p>
+      </div>
+      <div class="topbar-user">
+        <span class="readiness-chip" id="topReadinessChip">Beginner</span>
+      </div>
+    </header>
+
+    <main class="content" id="content">
+
+      <!-- ================= DASHBOARD ================= -->
+      <section class="page is-active" id="page-dashboard">
+
+        <div class="dashboard-top">
+          <div class="card stat-card stat-card--streak">
+            <p class="stat-label">Streak</p>
+            <p class="stat-value stat-value--lg" id="statStreak">0 days</p>
+            <p class="stat-foot" id="statStreakFoot">Best: 0d</p>
+          </div>
+
+          <div class="grid grid-stats">
+            <div class="card hero-score">
+              <div class="hero-score-ring">
+                <svg viewBox="0 0 140 140" width="140" height="140">
+                  <circle cx="70" cy="70" r="60" class="ring-track"/>
+                  <circle cx="70" cy="70" r="60" class="ring-fill" id="readinessRing" transform="rotate(-90 70 70)"/>
+                </svg>
+                <div class="hero-score-num">
+                  <span id="readinessScoreNum">0</span>
+                  <small>/ 100</small>
+                </div>
+              </div>
+              <div class="hero-score-info">
+                <p class="eyebrow-plain">Readiness</p>
+                <h2 id="readinessLevel">Beginner</h2>
+                <p class="muted" id="readinessBlurb">Start with small tasks to build momentum.</p>
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <p class="stat-label">Progress</p>
+              <p class="stat-value" id="statOverall">0%</p>
+              <div class="bar-track"><div class="bar-fill" id="statOverallBar"></div></div>
+              <p class="stat-foot" id="statOverallFoot">0 of 0 done</p>
+            </div>
+
+            <div class="card stat-card">
+              <p class="stat-label">Week</p>
+              <p class="stat-value" id="statWeek">0</p>
+              <p class="stat-foot">completed</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-split">
+          <div class="card">
+            <div class="card-head">
+              <h3>Category progress</h3>
+            </div>
+            <div id="categoryProgressList" class="category-progress-list"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3>Recommendations</h3>
+            </div>
+            <ul class="rec-list" id="recommendationList"></ul>
+          </div>
+        </div>
+
+        <div class="grid grid-split">
+          <div class="card">
+            <div class="card-head">
+              <h3>Recently completed</h3>
+              <button class="link-btn" data-goto="roadmap">View all tasks</button>
+            </div>
+            <ul class="mini-list" id="recentCompletedList"></ul>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3>Upcoming milestones</h3>
+              <button class="link-btn" data-goto="roadmap">View all tasks</button>
+            </div>
+            <ul class="mini-list" id="upcomingList"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ROADMAP & TASKS ================= -->
+      <section class="page" id="page-roadmap">
+        <div class="toolbar">
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="M20 20 L16.5 16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input type="text" id="taskSearch" placeholder="Search tasks…">
+          </div>
+          <select id="filterCategory" class="select-input"></select>
+          <select id="filterStatus" class="select-input">
+            <option value="">All statuses</option>
+            <option value="pending">Pending</option>
+            <option value="ongoing">Ongoing</option>
+            <option value="completed">Completed</option>
+          </select>
+          <select id="filterPriority" class="select-input">
+            <option value="">All priorities</option>
+            <option value="high">High priority</option>
+            <option value="medium">Medium priority</option>
+            <option value="low">Low priority</option>
+          </select>
+          <button class="btn-primary" id="addTaskBtn">+ Add task</button>
+        </div>
+
+        <div id="taskGroups" class="task-groups"></div>
+        <p class="empty-state" id="taskEmptyState" hidden>No tasks match your filters. Try clearing a filter or add a new task.</p>
+      </section>
+
+      <!-- ================= SKILL TRACKING ================= -->
+      <section class="page" id="page-skills">
+        <div class="grid grid-split">
+          <div class="card">
+            <div class="card-head"><h3>Skill gaps</h3></div>
+            <p class="muted small-top">Categories below 40% completion need attention before placement drives.</p>
+            <div id="gapList" class="gap-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Category breakdown</h3></div>
+            <div id="skillBreakdown" class="category-progress-list"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>All skill areas</h3></div>
+          <div class="skill-table-wrap">
+            <table class="skill-table">
+              <thead>
+                <tr><th>Category</th><th>Completed</th><th>Ongoing</th><th>Pending</th><th>Total</th><th>Completion</th></tr>
+              </thead>
+              <tbody id="skillTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ANALYTICS ================= -->
+      <section class="page" id="page-analytics">
+        <div class="grid grid-split">
+          <div class="card">
+            <div class="card-head"><h3>Readiness trend</h3></div>
+            <svg id="trendChart" viewBox="0 0 480 220" class="chart-svg"></svg>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Weekly activity</h3></div>
+            <svg id="activityChart" viewBox="0 0 480 220" class="chart-svg"></svg>
+          </div>
+        </div>
+
+        <div class="grid grid-hero grid-hero--analytics">
+          <div class="card stat-card">
+            <p class="stat-label">Consistency score</p>
+            <p class="stat-value" id="consistencyScore">0%</p>
+            <p class="stat-foot">active days in the last 30</p>
+          </div>
+          <div class="card stat-card">
+            <p class="stat-label">Avg. completions / active day</p>
+            <p class="stat-value" id="avgPerDay">0</p>
+            <p class="stat-foot">based on your history log</p>
+          </div>
+          <div class="card stat-card">
+            <p class="stat-label">Longest streak</p>
+            <p class="stat-value" id="longestStreak">0 days</p>
+            <p class="stat-foot">your best consistency run</p>
+          </div>
+          <div class="card stat-card">
+            <p class="stat-label">Strongest category</p>
+            <p class="stat-value" id="strongestCategory">—</p>
+            <p class="stat-foot">highest completion rate</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ACHIEVEMENTS ================= -->
+      <section class="page" id="page-achievements">
+        <div class="card">
+          <div class="card-head">
+            <h3>Badges</h3>
+            <span class="muted" id="achievementCount">0 of 0 earned</span>
+          </div>
+          <div id="achievementGrid" class="achievement-grid"></div>
+        </div>
+      </section>
+
+      <!-- ================= HISTORY ================= -->
+      <section class="page" id="page-history">
+        <div class="card">
+          <div class="card-head"><h3>Activity log</h3></div>
+          <ol class="timeline" id="historyTimeline"></ol>
+          <p class="empty-state" id="historyEmptyState" hidden>No activity yet. Complete a task to start your history.</p>
+        </div>
+      </section>
+
+      <!-- ================= PROFILE & GOALS ================= -->
+      <section class="page" id="page-profile">
+        <div class="grid grid-split">
+          <div class="card">
+            <div class="card-head"><h3>Personal profile</h3></div>
+            <form id="profileForm" class="form-grid">
+              <label>Full name
+                <input type="text" name="name" placeholder="e.g. Ananya Sharma">
+              </label>
+              <label>Email
+                <input type="email" name="email" placeholder="you@college.edu">
+              </label>
+              <label>College / University
+                <input type="text" name="college" placeholder="e.g. Institute of Technology">
+              </label>
+              <label>Degree &amp; branch
+                <input type="text" name="degree" placeholder="e.g. B.Tech, Computer Science">
+              </label>
+              <label>Graduation year
+                <input type="number" name="gradYear" min="2024" max="2035" placeholder="2027">
+              </label>
+              <label>CGPA / percentage
+                <input type="text" name="cgpa" placeholder="e.g. 8.4 CGPA">
+              </label>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Career goals</h3></div>
+            <form id="goalForm" class="form-grid">
+              <label>Target role
+                <input type="text" name="targetRole" placeholder="e.g. Software Development Engineer">
+              </label>
+              <label>Target companies
+                <input type="text" name="targetCompanies" placeholder="e.g. TCS, Infosys, startups">
+              </label>
+              <label>Preparation timeline
+                <select name="timelineMonths">
+                  <option value="1">1 month</option>
+                  <option value="2">2 months</option>
+                  <option value="3" selected>3 months</option>
+                  <option value="6">6 months</option>
+                  <option value="12">12 months</option>
+                </select>
+              </label>
+              <label>Preparation objective
+                <textarea name="objective" rows="3" placeholder="What does success look like for this preparation cycle?"></textarea>
+              </label>
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Roadmap categories</h3></div>
+          <p class="muted small-top">These categories organize your tasks and skill tracking. Add a category specific to your goal, such as a target company's interview pattern.</p>
+          <div class="category-manage" id="categoryManage"></div>
+          <div class="add-category-row">
+            <input type="text" id="newCategoryName" placeholder="New category name, e.g. System Design">
+            <button class="btn-secondary" id="addCategoryBtn">+ Add category</button>
+          </div>
+        </div>
+
+        <div class="save-row">
+          <button class="btn-primary" id="saveProfileBtn">Save profile &amp; goals</button>
+          <span class="save-confirm" id="saveConfirm" hidden>Saved ✓</span>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Task modal -->
+<div class="modal-backdrop" id="taskModalBackdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+    <div class="modal-head">
+      <h3 id="taskModalTitle">Add task</h3>
+      <button class="icon-btn" id="closeModalBtn" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M5 5 L19 19 M19 5 L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <form id="taskForm" class="form-grid">
+      <input type="hidden" name="id">
+      <label>Task title
+        <input type="text" name="title" required placeholder="e.g. Solve 20 array problems">
+      </label>
+      <label>Category
+        <select name="category" id="taskCategorySelect" required></select>
+      </label>
+      <div class="form-row-2">
+        <label>Priority
+          <select name="priority">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </label>
+        <label>Status
+          <select name="status">
+            <option value="pending">Pending</option>
+            <option value="ongoing">Ongoing</option>
+            <option value="completed">Completed</option>
+          </select>
+        </label>
+      </div>
+      <label>Target date
+        <input type="date" name="targetDate">
+      </label>
+      <label>Notes (optional)
+        <textarea name="notes" rows="2" placeholder="Any details you want to remember"></textarea>
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn-ghost" id="deleteTaskBtn" hidden>Delete task</button>
+        <div class="modal-actions-right">
+          <button type="button" class="btn-ghost" id="cancelTaskBtn">Cancel</button>
+          <button type="submit" class="btn-primary">Save task</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
